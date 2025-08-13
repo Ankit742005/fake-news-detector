@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake News Detector</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🕵️‍♀️ Fake News Detector</h1>
+    <p>Paste a headline or article text, and I’ll predict whether it looks <strong>FAKE</strong> or <strong>REAL</strong>.</p>
+
+    <form action="/predict" method="post">
+      <textarea name="news_text" placeholder="Paste news text here..." rows="10">{{ text }}</textarea>
+      <button type="submit">Detect</button>
+    </form>
+
+    {% if result %}
+      <div class="result">
+        <h2>Prediction: <span class="{{ 'fake' if result == 'FAKE' else 'real' }}">{{ result }}</span></h2>
+        {% if proba is not none %}
+          <p class="confidence">Confidence: {{ '%.2f'|format(proba * 100) }}%</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <footer>
+      <p>Model: TF-IDF + Logistic Regression • Educational demo</p>
+    </footer>
+  </div>
+</body>
+</html>
